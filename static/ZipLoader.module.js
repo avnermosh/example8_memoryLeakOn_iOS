@@ -10,6 +10,8 @@
  */
 
 
+export { ZipLoader };
+
 //////////////////////////////////////////////////////////////////
 // avner: BEG common related
 //////////////////////////////////////////////////////////////////
@@ -3686,5 +3688,5 @@ var ZipLoader = function () {
     return ZipLoader;
 }();
 
-export { ZipLoader };
+// export { ZipLoader };
 

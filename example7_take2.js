@@ -3,7 +3,7 @@ import { ZipLoader } from "./static/ZipLoader.module.js";
 // Setting the variable doDebugMemoryLeakOn_iOS_withRevoke to true causes a problem on iOS!!!
 let doDebugMemoryLeakOn_iOS_withRevoke = true;
 // doDebugMemoryLeakOn_iOS_withRevoke = false;
-let dummyIndex = 4;
+let dummyIndex = 5;
 
 let toastrSettings = { timeOut: 0,
                        extendedTimeOut: 0,
