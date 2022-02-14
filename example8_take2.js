@@ -1,4 +1,15 @@
-import { ZipLoader } from "./static/ZipLoader.module.js";
+
+let doRunFromLocalFiles = true;
+
+if(doRunFromLocalFiles)
+{
+    import { ZipLoader } from "./static/ZipLoader.module.js";
+}
+else
+{
+    import { ZipLoader } from "https://cdn.jsdelivr.net/gh/avnermosh/example8_memoryLeakOn_iOS/static/ZipLoader.module.js";
+}
+
 
 // Setting the variable doDebugMemoryLeakOn_iOS_withRevoke to true causes a problem on iOS!!!
 let doDebugMemoryLeakOn_iOS_withRevoke = true;
