@@ -1,14 +1,18 @@
 
-let doRunFromLocalFiles = true;
 
-if(doRunFromLocalFiles)
-{
-    import { ZipLoader } from "./static/ZipLoader.module.js";
-}
-else
-{
-    import { ZipLoader } from "https://cdn.jsdelivr.net/gh/avnermosh/example8_memoryLeakOn_iOS/static/ZipLoader.module.js";
-}
+import { ZipLoader } from "./static/ZipLoader.module.js";
+
+// let doRunFromLocalFiles = true;
+
+// if(doRunFromLocalFiles)
+// {
+//     import { ZipLoader } from "./static/ZipLoader.module.js";
+// }
+// else
+// {
+//     import { ZipLoader } from "https://cdn.jsdelivr.net/gh/avnermosh/example8_memoryLeakOn_iOS/static/ZipLoader.module.js";
+// }
+
 
 
 // Setting the variable doDebugMemoryLeakOn_iOS_withRevoke to true causes a problem on iOS!!!
@@ -30,6 +34,7 @@ let zipFileInfo = {
 
 const imageCountTotal_numFilesBetweenReporting = 10;
 var imageCountTotal = 0;
+var objectURL = window.URL || window.webkitURL;
 
 // --------------------------------------------------------------
 
@@ -50,8 +55,14 @@ async function extractAsBlobUrl(zipFileEntry, contentType) {
                 if(isObjectValid(fileInfo.url))
                 {
                     // revokeObjectURL causes a problem on iOS!!!
+                    console.log('zipFileInfo.files[filenameFullPath].url1', zipFileInfo.files[filenameFullPath].url);
+                    console.log('fileInfo.url1', fileInfo.url); 
                     URL.revokeObjectURL(fileInfo.url);
                     fileInfo.url = null;
+                    console.log('fileInfo.url2', fileInfo.url); 
+
+                    console.log('zipFileInfo.files[filenameFullPath].url2', zipFileInfo.files[filenameFullPath].url); 
+                    
                     fileInfo.buffer = null;
                 }
             }
