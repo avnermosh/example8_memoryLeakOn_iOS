@@ -9,20 +9,19 @@ let toastrSettings = { timeOut: 0,
                        closeButton: true,
                        closeDuration: 1000};
 
-// zipFileInfo -> filesInfo
 let filesInfo = {
     'IMG_20191023_090718.jpg': { filename: "IMG_20191023_090718.jpg",
-                                 buffer: "foo2",
+                                 buffer: null,
                                  urlRef: "https://local.bldlog.com/avner/img/369/429/IMG_20191023_090718.jpg",
-                                 url: "https://local.bldlog.com/avner/img/369/429/IMG_20191023_090718.jpg" },
+                                 url: null },
     'IMG_20191126_155204.jpg': { filename: "IMG_20191126_155204.jpg",
-                                 buffer: "foo2",
+                                 buffer: null,
                                  urlRef: "https://local.bldlog.com/avner/img/369/429/IMG_20191126_155204.jpg",
-                                 url: "https://local.bldlog.com/avner/img/369/429/IMG_20191126_155204.jpg" },
+                                 url: null },
     'IMG_20191126_155221.jpg': { filename: "IMG_20191126_155221.jpg",
-                                 buffer: "foo2",
+                                 buffer: null,
                                  urlRef: "https://local.bldlog.com/avner/img/369/429/IMG_20191126_155221.jpg",
-                                 url: "https://local.bldlog.com/avner/img/369/429/IMG_20191126_155221.jpg" }
+                                 url: null }
 };
 
 const imageCountTotal_numFilesBetweenReporting = 10;
@@ -65,7 +64,7 @@ async function extractAsBlobUrl(fileEntry, contentType) {
         return fileEntry.url;
     }
     
-    if(isObjectInvalid(fileEntry.buffer)) {
+    if(!isObjectValid(fileEntry.buffer)) {
         // get the buffer
         await loadImageFile(fileEntry);
     }
@@ -89,11 +88,8 @@ async function extractAsBlobUrl(fileEntry, contentType) {
 };
 
 
-// loadFromZipFile -> loadImageFile
 async function loadImageFile(fileEntry) {
-
     let url = fileEntry.urlRef;
-    
     let blob = await fetch(url).then(r => r.blob());
     fileEntry.buffer = await blob.arrayBuffer();
     
@@ -101,18 +97,12 @@ async function loadImageFile(fileEntry) {
 };
 
 
-function isObjectInvalid(object) {
-    return !isObjectValid(object);
-};
-
-
 function isObjectValid(object) {
-    let retval = true;
     if( (object === undefined) || (object === null))
     {
-        retval = false;
+        return false;
     }
-    return retval;
+    return true;
 };
 
 
@@ -124,7 +114,6 @@ async function loadTheSelectedImageAndRender(fileEntry) {
 
         if( (imageCountTotal % imageCountTotal_numFilesBetweenReporting) == 0 )
         {
-            // remove the previous toast if it exists
             toastr.clear();
 
             let toastTitleStr = "Image counter";
@@ -139,14 +128,12 @@ async function loadTheSelectedImageAndRender(fileEntry) {
             let msgStr = "imageCountTotal: " + imageCountTotal;
 
             toastr.success(msgStr, toastTitleStr, toastrSettings);
-            
         }
         imageCountTotal++;
     }
     catch(err) {
         console.error('err', err);
 
-        // raise a toast to indicate the failure
         let toastTitleStr = "loadTheSelectedImageAndRender";
         let msgStr = "Failed to loadTheSelectedImageAndRender." + err;
         toastr.error(msgStr, toastTitleStr, toastrSettings);
@@ -160,7 +147,6 @@ async function loadTheSelectedImageAndRender(fileEntry) {
 
 async function loadFileEntry(loopIndex, filenameFullPath) {
 
-    // zipFileEntry -> fileEntry
     let fileEntry = filesInfo[filenameFullPath];
     await extractAsBlobUrl(fileEntry, 'image/jpeg');
 
@@ -169,8 +155,6 @@ async function loadFileEntry(loopIndex, filenameFullPath) {
 
     await loadTheSelectedImageAndRender(fileEntry);
 };
-
-
 
 
 function sleep( ms ) {
